@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>topology (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   topology() -&gt; aString
+ *
+ * Returns a string identifing this object's place in the device topology.  It
+ * often looks like this &quot;usb-0000:00:1d.7-1.2.1/input0&quot;.  Not all devices
+ * support this call in which case this function will raise an IOerror.
+ */
+static VALUE ed_topology(VALUE self)
+{
+  int fd = get_fd(self);
+  char top[256];
+
+  if (ioctl(fd, EVIOCGPHYS(sizeof(top)), top) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGPHYS&quot;, EVIOCGPHYS(sizeof(top)));
+  }
+  return rb_str_new2(top);
+}</pre>
+</body>
+</html>

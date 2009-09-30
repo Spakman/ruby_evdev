@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>activated_keys (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   activated_keys() -&gt; aArrayOfCodes
+ *
+ * This function returns a list of the currently active (that is depressed) key
+ * feature codes for a device that has the KEY feature_type.  Otherwise, it
+ * returns an empty list.  Better to use FeatureType#activated_features or
+ * Feature#activated?
+ */
+static VALUE ed_activated_keys(VALUE self)
+{
+  return ed_activated_stuff(self,EVIOCGKEY(KEY_MAX));
+}</pre>
+</body>
+</html>

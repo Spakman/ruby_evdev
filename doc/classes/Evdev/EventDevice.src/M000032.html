@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parameters_for_axis (Evdev::EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   parameters_for_axis(absolute_axis_feature_code) -&gt; aHash
+ *
+ *      require 'evdev'
+ *      
+ *      Evdev::EventDevice.open('/dev/input/event1') { |foo|
+ *        axis = foo.feature_type_named('ABS').feature_named('X')
+ *        puts foo.parameters_for_axis(axis.code)['value']
+ *      }
+ *   For devices with the absolute axis feature type (touchscreens, for example)
+ *   this function returns parameters about the axis features.  Five values are
+ *   returned:
+ *
+ *   [value] the current value for the axis
+ *   [minimum] the minimum value for the axis
+ *   [maximum] the maximum value for the axis
+ *   [flat] size of the flat section (not really sure what that means)
+ *   [fuzz] amount of error that may be present
+ *   
+ *   This is functionality that only makes sense for devices with the absolute
+ *   axis input type, but it will return success on others - coming back with
+ *   0s for all values.
+ */
+static VALUE ed_parameters_for_axis(VALUE self, VALUE axis)
+{
+  int fd = get_fd(self);
+  int axis_val = NUM2INT(axis);
+  struct input_absinfo axis_info;
+
+  if (ioctl(fd, EVIOCGABS(axis_val), &amp;axis_info) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCSREP&quot;, EVIOCSREP);
+  }
+  VALUE results_hash = rb_hash_new();
+  rb_hash_aset(results_hash, rb_str_new2(&quot;value&quot;), INT2NUM(axis_info.value));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;minimum&quot;), INT2NUM(axis_info.minimum));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;maximum&quot;), INT2NUM(axis_info.maximum));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;fuzz&quot;), INT2NUM(axis_info.fuzz));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;flat&quot;), INT2NUM(axis_info.flat));
+  return results_hash;
+}</pre>
+</body>
+</html>

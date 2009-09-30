@@ -1,0 +1,1301 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Evdev::EventDevice</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Evdev::EventDevice</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/eventdevice_rb.html">
+                eventdevice.rb
+                </a>
+        <br />
+                <a href="../../files/eventdevice_c_c.html">
+                eventdevice_c.c
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                File
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This class wraps the Linux evdev interface. This class inherits from File
+and adds functionality specific to evdev input devices (found at
+/dev/input/event*). All the functions in this interface have the potential
+to raise an IOerror.
+</p>
+<p>
+Look here for more info on the evdev interface itself: <a
+href="http://www.linuxjournal.com/article/6429">www.linuxjournal.com/article/6429</a>
+</p>
+<pre>
+  require 'evdev'
+
+  t = Evdev::EventDevice.open(&quot;/dev/input/event3&quot; , &quot;a+&quot;)
+  puts &quot;interface Version is #{t.event_interface_version}&quot;
+  puts &quot;bustype is #{t.bus_type_code}&quot;
+  puts &quot;bustype is #{t.bus_type_name}&quot;
+  puts &quot;vendor is #{t.vendor}&quot;
+  puts &quot;product is #{t.product}&quot;
+  puts &quot;version is #{t.version}&quot;
+  puts &quot;name is #{t.device_name}&quot;
+  puts &quot;topology is #{t.topology}&quot;
+  puts &quot;uniqueid is #{t.unique_id}&quot;
+  puts &quot;activated keys: #{t.activated_keys().inspect}&quot;
+  puts t.write_event(17,2,1); # turn scrollock led on
+  puts &quot;activated leds: #{t.activated_leds().inspect}&quot;
+  puts t.parameters_for_axis(0).inspect
+  t.supported_feature_types.each { | feature |
+    begin
+      puts &quot;feature #{feature}: #{feature.supported_features.join(', ') }&quot;
+    rescue IOError
+    end
+  }
+  while(1)
+    puts t.read_event.inspect
+  end
+  t.close
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000025">activated_keys</a>&nbsp;&nbsp;
+      <a href="#M000026">activated_leds</a>&nbsp;&nbsp;
+      <a href="#M000027">activated_sounds</a>&nbsp;&nbsp;
+      <a href="#M000016">bus_type_code</a>&nbsp;&nbsp;
+      <a href="#M000010">bus_type_name</a>&nbsp;&nbsp;
+      <a href="#M000013">create_event</a>&nbsp;&nbsp;
+      <a href="#M000014">create_feature_type</a>&nbsp;&nbsp;
+      <a href="#M000020">device_name</a>&nbsp;&nbsp;
+      <a href="#M000015">event_interface_version</a>&nbsp;&nbsp;
+      <a href="#M000011">feature_type_named</a>&nbsp;&nbsp;
+      <a href="#M000012">feature_type_named?</a>&nbsp;&nbsp;
+      <a href="#M000032">parameters_for_axis</a>&nbsp;&nbsp;
+      <a href="#M000018">product</a>&nbsp;&nbsp;
+      <a href="#M000028">read_event</a>&nbsp;&nbsp;
+      <a href="#M000030">repeat_rate</a>&nbsp;&nbsp;
+      <a href="#M000033">scancode_for_keycode</a>&nbsp;&nbsp;
+      <a href="#M000031">set_repeat_rate</a>&nbsp;&nbsp;
+      <a href="#M000034">set_scancode_for_keycode</a>&nbsp;&nbsp;
+      <a href="#M000023">supported_feature_types</a>&nbsp;&nbsp;
+      <a href="#M000024">supported_features_for_type</a>&nbsp;&nbsp;
+      <a href="#M000021">topology</a>&nbsp;&nbsp;
+      <a href="#M000022">unique_id</a>&nbsp;&nbsp;
+      <a href="#M000017">vendor</a>&nbsp;&nbsp;
+      <a href="#M000019">version</a>&nbsp;&nbsp;
+      <a href="#M000029">write_event</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="#M000025" class="method-signature">
+          <span class="method-name">activated_keys() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active (that is depressed)
+key feature codes for a device that has the KEY feature_type. Otherwise, it
+returns an empty list. Better to use <a
+href="FeatureType.html#M000045">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000025-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000025-source">
+<pre>
+/* call-seq:
+ *   activated_keys() -&gt; aArrayOfCodes
+ *
+ * This function returns a list of the currently active (that is depressed) key
+ * feature codes for a device that has the KEY feature_type.  Otherwise, it
+ * returns an empty list.  Better to use FeatureType#activated_features or
+ * Feature#activated?
+ */
+static VALUE ed_activated_keys(VALUE self)
+{
+  return ed_activated_stuff(self,EVIOCGKEY(KEY_MAX));
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="#M000026" class="method-signature">
+          <span class="method-name">activated_leds() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active led feature codes for
+a device that has the LED feature_type. Otherwise, it returns an empty
+list. Better to use <a
+href="FeatureType.html#M000045">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000026-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000026-source">
+<pre>
+/* call-seq:
+ *   activated_leds() -&gt; aArrayOfCodes
+ *
+ * This function returns a list of the currently active led feature codes for
+ * a device that has the LED feature_type.  Otherwise, it returns an empty
+ * list.  Better to use FeatureType#activated_features or Feature#activated?
+ */
+static VALUE ed_activated_leds(VALUE self)
+{
+  return ed_activated_stuff(self,EVIOCGLED(KEY_MAX));
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="#M000027" class="method-signature">
+          <span class="method-name">activated_sounds() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active sound feature codes
+for a device that has the SND feature_type. Otherwise, it returns an empty
+list. Better to use <a
+href="FeatureType.html#M000045">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000027-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000027-source">
+<pre>
+/* call-seq:
+ *   activated_sounds() -&gt; aArrayOfCodes
+ *
+ * This function returns a list of the currently active sound feature codes for
+ * a device that has the SND feature_type.  Otherwise, it returns an empty list.
+ * Better to use FeatureType#activated_features or Feature#activated?
+ */
+static VALUE ed_activated_sounds(VALUE self)
+{
+  return ed_activated_stuff(self,EVIOCGSND(KEY_MAX));
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">bus_type_code() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the bus that this device is connected on.
+Consider <a href="EventDevice.html#M000010">bus_type_name</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+/* call-seq:
+ *   bus_type_code() -&gt; anInteger
+ *
+ * Returns a number representing the bus that this device is connected on.
+ * Consider bus_type_name
+ */
+static VALUE ed_bus_type_code(VALUE self)
+{
+  return INT2FIX(get_input_info(self).bustype);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">bus_type_name</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the name of the bus type this device is connected through.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+    <span class="ruby-comment cmt"># File eventdevice.rb, line 60</span>
+60:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bus_type_name</span>
+61:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">CodeMappings</span>.<span class="ruby-identifier">bus_type</span>(<span class="ruby-identifier">bus_type_code</span>())
+62:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">create_event</span><span class="method-args">(type, code, value, time)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+creates an <a href="Event.html">Event</a> object. Used internally by the C
+side of <a href="EventDevice.html">EventDevice</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+    <span class="ruby-comment cmt"># File eventdevice.rb, line 82</span>
+82:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_event</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">time</span>)
+83:     <span class="ruby-identifier">feature_type</span> = <span class="ruby-identifier">create_feature_type</span>(<span class="ruby-identifier">type</span>)
+84:     <span class="ruby-identifier">feature</span> = <span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">feature_type</span>, <span class="ruby-identifier">code</span>)
+85:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Event</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">feature</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">time</span>)
+86:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">create_feature_type</span><span class="method-args">(code)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+creates an <a href="FeatureType.html">FeatureType</a> object. Used
+internally by the C side of <a href="EventDevice.html">EventDevice</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+    <span class="ruby-comment cmt"># File eventdevice.rb, line 89</span>
+89:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_feature_type</span>(<span class="ruby-identifier">code</span>)
+90:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">FeatureType</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">code</span>)
+91:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="#M000020" class="method-signature">
+          <span class="method-name">device_name() &rarr; String<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a human-readable name describing the device.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000020-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000020-source">
+<pre>
+/* call-seq:
+ *   device_name() -&gt; String
+ *
+ * Returns a human-readable name describing the device.
+ */
+static VALUE ed_device_name(VALUE self)
+{
+  int fd = get_fd(self);
+  char name[256];
+
+  if (ioctl(fd, EVIOCGNAME(sizeof(name)), name) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGNAME&quot;, EVIOCGNAME(sizeof(name)));
+  }
+  return rb_str_new2(name);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">event_interface_version() &rarr; aString<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string of the form x.y.z idenifing the version of the evdev
+version being used.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+/* call-seq:
+ *  event_interface_version() -&gt; aString
+ * 
+ * Returns a string of the form x.y.z idenifing the version of the evdev version
+ * being used.
+ */
+static VALUE ed_event_interface_version(VALUE self)
+{
+  int fd = get_fd(self);
+  int version;
+  char version_str[12];
+
+  if (ioctl(fd, EVIOCGVERSION, &amp;version) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGVERSION&quot;, EVIOCGVERSION);
+  }
+  sprintf(version_str, &quot;%d.%d.%d&quot;,
+  version &gt;&gt; 16, (version &gt;&gt; 8) &amp; 0xff, version &amp; 0xff);
+  return rb_str_new2(version_str);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">feature_type_named</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the <a href="FeatureType.html">FeatureType</a> with this name
+(check out <a href="CodeMappings.html">CodeMappings</a> for the <a
+href="FeatureType.html">FeatureType</a> names). If this feature is not
+supported by this device, this function raises.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+    <span class="ruby-comment cmt"># File eventdevice.rb, line 67</span>
+67:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">feature_type_named</span>(<span class="ruby-identifier">name</span>)
+68:     <span class="ruby-identifier">result</span> = <span class="ruby-identifier">feature_type_named?</span>(<span class="ruby-identifier">name</span>)
+69:     <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;no feature named #{name} for device #{path}&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>
+70:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+71:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">feature_type_named?</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the feature_type if the device has a feature with this name nil
+otherwise
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File eventdevice.rb, line 75</span>
+75:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">feature_type_named?</span>(<span class="ruby-identifier">name</span>)
+76:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">supported_feature_types</span>.<span class="ruby-identifier">detect</span> { <span class="ruby-operator">|</span> <span class="ruby-identifier">feature</span> <span class="ruby-operator">|</span>
+77:       <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span>
+78:     }
+79:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">parameters_for_axis(absolute_axis_feature_code) &rarr; aHash<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+   require 'evdev'
+
+   Evdev::EventDevice.open('/dev/input/event1') { |foo|
+     axis = foo.feature_type_named('ABS').feature_named('X')
+     puts foo.parameters_for_axis(axis.code)['value']
+   }
+</pre>
+<p>
+For devices with the absolute axis feature type (touchscreens, for example)
+this function returns parameters about the axis features. Five values are
+returned:
+</p>
+<dl>
+<dt>value</dt><dd>the current value for the axis
+
+</dd>
+<dt>minimum</dt><dd>the minimum value for the axis
+
+</dd>
+<dt>maximum</dt><dd>the maximum value for the axis
+
+</dd>
+<dt>flat</dt><dd>size of the flat section (not really sure what that means)
+
+</dd>
+<dt>fuzz</dt><dd>amount of error that may be present
+
+</dd>
+</dl>
+<p>
+This is functionality that only makes sense for devices with the absolute
+axis input type, but it will return success on others - coming back with 0s
+for all values.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+/* call-seq:
+ *   parameters_for_axis(absolute_axis_feature_code) -&gt; aHash
+ *
+ *      require 'evdev'
+ *      
+ *      Evdev::EventDevice.open('/dev/input/event1') { |foo|
+ *        axis = foo.feature_type_named('ABS').feature_named('X')
+ *        puts foo.parameters_for_axis(axis.code)['value']
+ *      }
+ *   For devices with the absolute axis feature type (touchscreens, for example)
+ *   this function returns parameters about the axis features.  Five values are
+ *   returned:
+ *
+ *   [value] the current value for the axis
+ *   [minimum] the minimum value for the axis
+ *   [maximum] the maximum value for the axis
+ *   [flat] size of the flat section (not really sure what that means)
+ *   [fuzz] amount of error that may be present
+ *   
+ *   This is functionality that only makes sense for devices with the absolute
+ *   axis input type, but it will return success on others - coming back with
+ *   0s for all values.
+ */
+static VALUE ed_parameters_for_axis(VALUE self, VALUE axis)
+{
+  int fd = get_fd(self);
+  int axis_val = NUM2INT(axis);
+  struct input_absinfo axis_info;
+
+  if (ioctl(fd, EVIOCGABS(axis_val), &amp;axis_info) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCSREP&quot;, EVIOCSREP);
+  }
+  VALUE results_hash = rb_hash_new();
+  rb_hash_aset(results_hash, rb_str_new2(&quot;value&quot;), INT2NUM(axis_info.value));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;minimum&quot;), INT2NUM(axis_info.minimum));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;maximum&quot;), INT2NUM(axis_info.maximum));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;fuzz&quot;), INT2NUM(axis_info.fuzz));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;flat&quot;), INT2NUM(axis_info.flat));
+  return results_hash;
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">product() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the product of the device.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+/* call-seq:
+ *   product() -&gt; anInteger
+ *
+ * Returns a number representing the product of the device.
+ */
+static VALUE ed_product(VALUE self)
+{
+  return INT2FIX(get_input_info(self).product);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">read_event() &rarr; Event<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ require 'evdev'
+
+ t = Evdev::EventDevice.open(&quot;/dev/input/event3&quot;)
+ while(1)
+   puts t.read_event.inspect
+ end
+ t.close
+</pre>
+<p>
+This function reads a event from the event device. Note that evdev events
+only occur when something changes so this is a call that can block for a
+while. If you want to know the status of the device, as opposed to being
+notified about changes use the <a
+href="EventDevice.html#M000025">activated_keys</a> (or <a
+href="EventDevice.html#M000026">activated_leds</a> or <a
+href="EventDevice.html#M000027">activated_sounds</a>) methods. This
+function uses IO#sysread under the covers so the usual warnings about not
+combining it with other types of reads applies.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+/* call-seq:
+ *   read_event() -&gt; Event
+ *  
+ *    require 'evdev'
+ *     
+ *    t = Evdev::EventDevice.open(&quot;/dev/input/event3&quot;) 
+ *    while(1)
+ *      puts t.read_event.inspect
+ *    end
+ *    t.close
+ *
+ *   This function reads a event from the event device.  Note that evdev events
+ *   only occur when something changes so this is a call that can block for a
+ *   while.  If you want to know the status of the device, as opposed to being
+ *   notified about changes use the activated_keys (or activated_leds or
+ *   activated_sounds) methods.  This function uses IO#sysread under the covers so
+ *   the usual warnings about not combining it with other types of reads
+ *   applies.
+ */
+static VALUE ed_read_event(VALUE self)
+{
+  struct input_event *event;
+  
+  VALUE result = rb_funcall(self,rb_intern(&quot;sysread&quot;),1, INT2FIX(sizeof(struct input_event)));
+  event = (struct input_event*) RSTRING(result)-&gt;ptr;
+  VALUE event_obj = rb_funcall(self,
+                         rb_intern(&quot;create_event&quot;),
+                         4,
+                         UINT2NUM(event-&gt;type),
+                         UINT2NUM(event-&gt;code),
+                         INT2NUM(event-&gt;value),
+                         rb_time_new(event-&gt;time.tv_sec, event-&gt;time.tv_usec));
+
+  return event_obj;
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">repeat_rate() &rarr; aHash<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key devices that support it, this function returns a hash with the
+repeat rate settins. There are two values in the hash:
+</p>
+<dl>
+<dt>initial_delay</dt><dd>this is the amount of time you must hold down a key before it begins to
+repeat
+
+</dd>
+<dt>repeat_interval</dt><dd>once the initial_delay is exhausted, a new key event will be registed every
+repeat_interval seconds
+
+</dd>
+</dl>
+<p>
+I&#8217;m not sure if this functionality really works, because I&#8217;ve
+never actually found a keyboard that supports it. Also note that this
+functionality is new in Linux2.6 and so older versions of the kernel will
+just raise right away if you call this function. If the functionality is
+available in the kernel but not supported by this particular device, an
+IOException will be raised.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+/* call-seq:
+ *   repeat_rate() -&gt; aHash
+ *
+ * For key devices that support it, this function returns a hash with the repeat
+ * rate settins.  There are two values in the hash:
+ * [initial_delay]   this is the amount of time you must hold down a key before it
+ *                   begins to repeat
+ * [repeat_interval] once the initial_delay is exhausted, a new key event will
+ *                   be registed every repeat_interval seconds
+ * I'm not sure if this functionality really works, because I've
+ * never actually found a keyboard that supports it.  Also note that this
+ * functionality is new in Linux2.6 and so older versions of the kernel will
+ * just raise right away if you call this function.  If the functionality is
+ * available in the kernel but not supported by this particular device, an
+ * IOException will be raised.
+ */
+static VALUE ed_repeat_rate(VALUE self)
+{
+#ifdef EVIOCGREP
+  int fd = get_fd(self);
+  int rate[2];
+
+  if (ioctl(fd, EVIOCGREP, rate) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGREP&quot;, EVIOCGREP);
+  }
+  VALUE results_hash = rb_hash_new();
+  rb_hash_aset(results_hash, rb_str_new2(&quot;intial_delay&quot;), INT2NUM(rate[0]));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;repeat_interval&quot;), INT2NUM(rate[1]));
+  return results_hash;
+#else
+    rb_raise(rb_eIOError, &quot;your version of linux does not support repeat rate&quot;);
+#endif
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">scancode_for_keycode(int_keycode) &rarr; aNumber<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key input devices with drivers that support it, this function returns
+the scancode currently mapped to the input keycode. Not all keyboard
+drivers support this (the USB drivers, in particular, do not). If the
+operation is unsupported, this function with raise and IOException.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+/* call-seq: 
+ *   scancode_for_keycode(int_keycode) -&gt; aNumber
+ *
+ * For key input devices with drivers that support it, this function returns the
+ * scancode currently mapped to the input keycode.  Not all keyboard drivers
+ * support this (the USB drivers, in particular, do not).  If the operation is
+ * unsupported, this function with raise and IOException.
+ */
+static VALUE ed_scancode_for_keycode(VALUE self, VALUE keycode)
+{
+  int fd = get_fd(self);
+  int mapping[2];
+  mapping[0] = NUM2INT(keycode);
+
+  if (ioctl(fd, EVIOCGKEYCODE, mapping) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGKEYCODE&quot;, EVIOCGKEYCODE);
+  }
+  return INT2NUM(mapping[1]);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">set_repeat_rate(initial, repeat) &rarr; nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key device drivers that support it, you can set the repeat rate
+parameters. I&#8217;m not sure if this functionality really works, because
+I&#8217;ve never actually found a keyboard that supports it. Also note that
+this functionality is new in Linux2.6 and so older versions of the kernel
+will just raise right away if you call this function. If the functionality
+is available in the kernel but not supported by this particular device, an
+IOException will be raised.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+/* call-seq:
+ *   set_repeat_rate(initial, repeat) -&gt; nil
+ *   
+ * For key device drivers that support it, you can set the repeat rate
+ * parameters.  I'm not sure if this functionality really works, because I've
+ * never actually found a keyboard that supports it.  Also note that this
+ * functionality is new in Linux2.6 and so older versions of the kernel will
+ * just raise right away if you call this function.  If the functionality is
+ * available in the kernel but not supported by this particular device, an
+ * IOException will be raised.
+ */
+static VALUE ed_set_repeat_rate(VALUE self, VALUE initial, VALUE repeat)
+{
+#ifdef EVIOCSREP
+  int fd = get_fd(self);
+  int rate[2];
+  rate[0] = NUM2INT(initial);
+  rate[1] = NUM2INT(repeat);
+
+  if (ioctl(fd, EVIOCSREP, rate) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCSREP&quot;, EVIOCSREP);
+  }
+  return Qnil;
+#else
+    rb_raise(rb_eIOError, &quot;your version of linux does not support repeat rate&quot;);
+#endif
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">set_scancode_for_keycode(int_keycode, int_new_scancode) &rarr; nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key input devices with drivers that support it, this function remaps
+the scancode resulting from a keypress. Not all keyboard drivers support
+this (the USB drivers, in particular, do not). If the operation is
+unsupported, this function with raise and IOException.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+/* call-seq:
+ *     set_scancode_for_keycode(int_keycode, int_new_scancode) -&gt; nil
+ *
+ * For key input devices with drivers that support it, this function remaps the
+ * scancode resulting from a keypress.  Not all keyboard drivers support this
+ * (the USB drivers, in particular, do not).  If the operation is unsupported,
+ * this function with raise and IOException.
+ */
+static VALUE ed_set_scancode_for_keycode(VALUE self, VALUE keycode, VALUE scancode)
+{
+  int fd = get_fd(self);
+  int mapping[2];
+  mapping[0] = NUM2INT(keycode);
+  mapping[1] = NUM2INT(scancode);
+
+  if (ioctl(fd, EVIOCSKEYCODE, mapping) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGKEYCODE&quot;, EVIOCGKEYCODE);
+  }
+  return Qnil;
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="#M000023" class="method-signature">
+          <span class="method-name">supported_feature_types() &rarr; arrayOfFeatureTypes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+   require 'evdev'
+
+   Evdev::EventDevice.open(&quot;/dev/input/event3&quot;) { |device|
+     types = device.supported_feature_types
+     names = types.collect { |i| i.name }
+     puts &quot;Features: #{names.join(', ')}&quot;
+   }
+</pre>
+<p>
+This function returns all the FeatureTypes that the device reports that it
+supports.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000023-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000023-source">
+<pre>
+/* call-seq:
+ *   supported_feature_types() -&gt; arrayOfFeatureTypes
+ *
+ *    require 'evdev'
+ *  
+ *    Evdev::EventDevice.open(&quot;/dev/input/event3&quot;) { |device|
+ *      types = device.supported_feature_types
+ *      names = types.collect { |i| i.name }
+ *      puts &quot;Features: #{names.join(', ')}&quot;
+ *    }
+ * This function returns all the FeatureTypes that the device reports that it
+ * supports.
+ */
+static VALUE ed_supported_feature_types(VALUE self)
+{
+  int feature_type;
+  int fd = get_fd(self);
+  VALUE result_array = rb_ary_new();
+  long feature_type_bits[NBITS(EV_MAX)];
+
+  memset(feature_type_bits, 0, sizeof(feature_type_bits));
+  if (ioctl(fd, EVIOCGBIT(0, EV_MAX), feature_type_bits) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGBIT&quot;, EVIOCGBIT(0, EV_MAX));
+  }
+  for (feature_type = 0; feature_type &lt; EV_MAX; feature_type++) {
+    if (test_bit(feature_type, feature_type_bits)) { 
+      VALUE feature_type_obj = rb_funcall(self,
+                         rb_intern(&quot;create_feature_type&quot;),
+                         1,
+                         INT2NUM(feature_type));
+      rb_ary_push(result_array, feature_type_obj);
+    }
+  }
+  return result_array;
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="#M000024" class="method-signature">
+          <span class="method-name">supported_features_for_type(feature_type_code) &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This returns an array of codes corresponding to the features of this
+featuretype that this particular device supports. Rather than calling this
+(pretty crude) function, use FeatureType#supportedFeatures
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000024-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000024-source">
+<pre>
+/* call-seq:
+ *   supported_features_for_type(feature_type_code) -&gt; aArrayOfCodes
+ *
+ * This returns an array of codes corresponding to the features of this
+ * featuretype that this particular device supports.  Rather than calling this
+ * (pretty crude) function, use FeatureType#supportedFeatures
+ */
+static VALUE ed_supported_features_for_type(VALUE self, VALUE type)
+{
+  int feature_type = NUM2INT(type);
+  return ed_activated_stuff(self, EVIOCGBIT(feature_type, KEY_MAX));
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="#M000021" class="method-signature">
+          <span class="method-name">topology() &rarr; aString<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string identifing this object&#8217;s place in the device
+topology. It often looks like this
+&quot;usb-0000:00:1d.7-1.2.1/input0&quot;. Not all devices support this
+call in which case this function will raise an IOerror.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000021-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000021-source">
+<pre>
+/* call-seq:
+ *   topology() -&gt; aString
+ *
+ * Returns a string identifing this object's place in the device topology.  It
+ * often looks like this &quot;usb-0000:00:1d.7-1.2.1/input0&quot;.  Not all devices
+ * support this call in which case this function will raise an IOerror.
+ */
+static VALUE ed_topology(VALUE self)
+{
+  int fd = get_fd(self);
+  char top[256];
+
+  if (ioctl(fd, EVIOCGPHYS(sizeof(top)), top) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGPHYS&quot;, EVIOCGPHYS(sizeof(top)));
+  }
+  return rb_str_new2(top);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="#M000022" class="method-signature">
+          <span class="method-name">unique_id() &rarr; string<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string that in theory is set by the manufacturer to uniquely
+identify the device. In pratice, this returns empty string for most devices
+and sometimes just raises an IOError outright.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000022-source">
+<pre>
+/* call-seq:
+ *   unique_id() -&gt; string
+ *
+ * Returns a string that in theory is set by the manufacturer to uniquely
+ * identify the device.  In pratice, this returns empty string for most devices
+ * and sometimes just raises an IOError outright.
+ */
+static VALUE ed_unique_id(VALUE self)
+{
+  int fd = get_fd(self);
+  char unique[256];
+
+  if (ioctl(fd, EVIOCGUNIQ(sizeof(unique)), unique) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGUNIQ&quot;, EVIOCGUNIQ(sizeof(unique)));
+  }
+  return rb_str_new2(unique);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">vendor() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the manufacturer of the device.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+/* call-seq:
+ *   vendor() -&gt; anInteger
+ *
+ * Returns a number representing the manufacturer of the device.
+ */
+static VALUE ed_vendor(VALUE self)
+{
+  return INT2FIX(get_input_info(self).vendor);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="#M000019" class="method-signature">
+          <span class="method-name">version() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the version of the device.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000019-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000019-source">
+<pre>
+/* call-seq:
+ *   version() -&gt; anInteger
+ *
+ * Returns a number representing the version of the device.
+ */
+static VALUE ed_version(VALUE self)
+{
+  return INT2FIX(get_input_info(self).version);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="#M000029" class="method-signature">
+          <span class="method-name">write_event(int_feature_type, int_feature_code, int_value) &rarr; int<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+  require 'evdev'
+
+  Evdev::EventDevice.open(&quot;/dev/input/event3&quot; , &quot;a+&quot;) { |t|
+    # 17 is the LED device, 2 is the Scrolllock LED, 1 sets it on
+    puts t.write_event(17,2,1);
+  }
+</pre>
+<p>
+This function allows you to write to the evdev device. For LEDs, this turns
+them on or off. It&#8217;s cleaner to use the <a
+href="Feature.html#M000008">Feature#write_value</a> function to accomplish
+this. The function returns the number of bytes written. This function uses
+syswrite under the covers, so the usual rules about combining this with
+other types of write functions apply.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000029-source">
+<pre>
+/* call-seq:
+ *   write_event(int_feature_type, int_feature_code, int_value) -&gt; int
+ *
+ *   require 'evdev'
+ *
+ *   Evdev::EventDevice.open(&quot;/dev/input/event3&quot; , &quot;a+&quot;) { |t|
+ *     # 17 is the LED device, 2 is the Scrolllock LED, 1 sets it on
+ *     puts t.write_event(17,2,1);
+ *   }
+ * This function allows you to write to the evdev device.  For LEDs, this turns
+ * them on or off.  It's cleaner to use the Feature#write_value function to
+ * accomplish this.  The function returns the number of bytes written.  This
+ * function uses syswrite under the covers, so the usual rules about combining
+ * this with other types of write functions apply. */
+static VALUE ed_write_event(VALUE self, VALUE type, VALUE code, VALUE value)
+{
+  struct input_event event;
+  event.type = NUM2UINT(type);
+  event.code = NUM2UINT(code);
+  event.value = NUM2INT(value);
+  VALUE stringFromStruct = rb_str_new(&amp;event,sizeof(struct input_event));
+  return rb_funcall(self,rb_intern(&quot;syswrite&quot;),1, stringFromStruct);
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

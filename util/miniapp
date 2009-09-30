@@ -1,0 +1,5 @@
+require 'rubyevdev'
+
+foo = EventDevice.open('/dev/input/event1')
+axis = foo.feature_type_named('ABS').feature_named('X')
+puts foo.parameters_for_axis(axis.code)['value']

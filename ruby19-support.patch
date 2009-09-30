@@ -1,0 +1,29 @@
+--- eventdevice_c.c.old	2009-09-23 14:24:35.000000000 +0100
++++ eventdevice_c.c	2009-09-23 14:31:34.000000000 +0100
+@@ -71,10 +71,17 @@
+ 
+ static int get_fd(VALUE self)
+ {
++#if defined(HAVE_RUBY_IO_H) /* seems like Ruby > 1.8 */
++  rb_io_t *fptr;
++
++  GetOpenFile(self, fptr);
++  return fptr->fd;
++#else
+   OpenFile *fptr;
+ 
+   GetOpenFile(self, fptr);
+   return fileno(fptr->f);
++#endif
+ }
+ 
+ static struct input_id get_input_info(VALUE self)
+@@ -261,7 +268,7 @@
+   struct input_event *event;
+   
+   VALUE result = rb_funcall(self,rb_intern("sysread"),1, INT2FIX(sizeof(struct input_event)));
+-  event = (struct input_event*) RSTRING(result)->ptr;
++  event = (struct input_event*) RSTRING_PTR(result);
+   VALUE event_obj = rb_funcall(self,
+ 		         rb_intern("create_event"),
+ 			 4,

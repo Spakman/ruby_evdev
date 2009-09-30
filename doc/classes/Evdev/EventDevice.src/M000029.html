@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>write_event (Evdev::EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   write_event(int_feature_type, int_feature_code, int_value) -&gt; int
+ *
+ *   require 'evdev'
+ *
+ *   Evdev::EventDevice.open(&quot;/dev/input/event3&quot; , &quot;a+&quot;) { |t|
+ *     # 17 is the LED device, 2 is the Scrolllock LED, 1 sets it on
+ *     puts t.write_event(17,2,1);
+ *   }
+ * This function allows you to write to the evdev device.  For LEDs, this turns
+ * them on or off.  It's cleaner to use the Feature#write_value function to
+ * accomplish this.  The function returns the number of bytes written.  On a
+ * failure, it will raise an IOException.
+ */
+static VALUE ed_write_event(VALUE self, VALUE type, VALUE code, VALUE value)
+{
+  struct input_event event;
+  int fd = get_fd(self);
+  int result;
+  event.type = NUM2UINT(type);
+  event.code = NUM2UINT(code);
+  event.value = NUM2INT(value);
+
+  result = write(fd, &amp;event, sizeof(struct input_event));
+  if(result &lt; 0)
+    rb_raise(rb_eIOError, &quot;error writing to %s: %s&quot;, RFILE(self)-&gt;fptr-&gt;path,strerror(errno));
+  return INT2NUM(result);
+}</pre>
+</body>
+</html>

@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: EventDevice</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">EventDevice</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/eventdevice_c.html">
+                eventdevice.c
+                </a>
+        <br />
+                <a href="../files/rubyevdev_rb.html">
+                rubyevdev.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                File
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This class wraps the Linux evdev interface. This class inherits from File
+and adds functionality specific to evdev input devices (found at
+/dev/input/event*). All the functions in this interface have the potential
+to raise an IOerror.
+</p>
+<pre>
+  require 'rubyevdev'
+
+  t = EventDevice.open(ARGV[0] , &quot;a+&quot;)
+  puts &quot;interface Version is #{t.event_interface_version}&quot;
+  puts &quot;bustype is #{t.bus_type_code}&quot;
+  puts &quot;bustype is #{t.bus_type_name}&quot;
+  puts &quot;vendor is #{t.vendor}&quot;
+  puts &quot;product is #{t.product}&quot;
+  puts &quot;version is #{t.version}&quot;
+  puts &quot;name is #{t.device_name}&quot;
+  puts &quot;topology is #{t.topology}&quot;
+  puts &quot;uniqueid is #{t.unique_id}&quot;
+  puts &quot;activated keys: #{t.activated_keys().inspect}&quot;
+  puts t.write_event(17,2,1); # turn scrollock led on
+  puts &quot;activated leds: #{t.activated_leds().inspect}&quot;
+  puts t.parameters_for_axis(0).inspect
+  t.supported_feature_types.each { | feature |
+    begin
+      puts &quot;feature #{feature}: #{feature.supported_features.join(', ') }&quot;
+    rescue IOError
+    end
+  }
+  while(1)
+    puts t.read_event.inspect
+  end
+  t.close
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000016">activated_keys</a>&nbsp;&nbsp;
+      <a href="#M000017">activated_leds</a>&nbsp;&nbsp;
+      <a href="#M000018">activated_sounds</a>&nbsp;&nbsp;
+      <a href="#M000007">bus_type_code</a>&nbsp;&nbsp;
+      <a href="#M000026">bus_type_name</a>&nbsp;&nbsp;
+      <a href="#M000028">create_event</a>&nbsp;&nbsp;
+      <a href="#M000029">create_feature_type</a>&nbsp;&nbsp;
+      <a href="#M000011">device_name</a>&nbsp;&nbsp;
+      <a href="#M000006">event_interface_version</a>&nbsp;&nbsp;
+      <a href="#M000027">feature_type_named</a>&nbsp;&nbsp;
+      <a href="#M000023">parameters_for_axis</a>&nbsp;&nbsp;
+      <a href="#M000009">product</a>&nbsp;&nbsp;
+      <a href="#M000019">read_event</a>&nbsp;&nbsp;
+      <a href="#M000021">repeat_rate</a>&nbsp;&nbsp;
+      <a href="#M000024">scancode_for_keycode</a>&nbsp;&nbsp;
+      <a href="#M000022">set_repeat_rate</a>&nbsp;&nbsp;
+      <a href="#M000025">set_scancode_for_keycode</a>&nbsp;&nbsp;
+      <a href="#M000014">supported_feature_types</a>&nbsp;&nbsp;
+      <a href="#M000015">supported_features_for_type</a>&nbsp;&nbsp;
+      <a href="#M000012">topology</a>&nbsp;&nbsp;
+      <a href="#M000013">unique_id</a>&nbsp;&nbsp;
+      <a href="#M000008">vendor</a>&nbsp;&nbsp;
+      <a href="#M000010">version</a>&nbsp;&nbsp;
+      <a href="#M000020">write_event</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000016.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000016.html');return false;">
+          <span class="method-name">activated_keys() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active (that is depressed)
+key feature codes for a device that has the KEY feature_type. Otherwise, it
+returns an empty list. Better to use <a
+href="FeatureType.html#M000039">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000017.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000017.html');return false;">
+          <span class="method-name">activated_leds() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active led feature codes for
+a device that has the LED feature_type. Otherwise, it returns an empty
+list. Better to use <a
+href="FeatureType.html#M000039">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000018.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000018.html');return false;">
+          <span class="method-name">activated_sounds() &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This function returns a list of the currently active sound feature codes
+for a device that has the SND feature_type. Otherwise, it returns an empty
+list. Better to use <a
+href="FeatureType.html#M000039">FeatureType#activated_features</a> or
+Feature#activated?
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000007.html');return false;">
+          <span class="method-name">bus_type_code() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the bus that this device is connected on.
+Consider <a href="EventDevice.html#M000026">bus_type_name</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000026.html');return false;">
+          <span class="method-name">bus_type_name</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the name of the bus type this device is connected through.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000028.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000028.html');return false;">
+          <span class="method-name">create_event</span><span class="method-args">(type, code, value, time)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+creates an <a href="Event.html">Event</a> object. Used internally by the C
+side of <a href="EventDevice.html">EventDevice</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000029.html');return false;">
+          <span class="method-name">create_feature_type</span><span class="method-args">(code)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+creates an <a href="FeatureType.html">FeatureType</a> object. Used
+internally by the C side of <a href="EventDevice.html">EventDevice</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000011.html');return false;">
+          <span class="method-name">device_name() &rarr; String<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a human-readable name describing the device.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000006.html');return false;">
+          <span class="method-name">event_interface_version() &rarr; aString<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string of the form x.y.z idenifing the version of the evdev
+version being used.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000027.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000027.html');return false;">
+          <span class="method-name">feature_type_named</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the <a href="FeatureType.html">FeatureType</a> with this name
+(check out <a href="CodeMappings.html">CodeMappings</a> for the <a
+href="FeatureType.html">FeatureType</a> names). If this feature is not
+supported by this device, this function raises.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000023.html');return false;">
+          <span class="method-name">parameters_for_axis(absolute_axis_feature_code) &rarr; aHash<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+   require 'rubyevdev'
+
+   foo = EventDevice.open('/dev/input/event1')
+   axis = foo.feature_type_named('ABS').feature_named('X')
+   puts foo.parameters_for_axis(axis.code)['value']
+</pre>
+<p>
+For devices with the absolute axis feature type (touchscreens, for example)
+this function returns parameters about the axis features. Five values are
+returned:
+</p>
+<dl>
+<dt>value</dt><dd>the current value for the axis
+
+</dd>
+<dt>minimum</dt><dd>the minimum value for the axis
+
+</dd>
+<dt>maximum</dt><dd>the maximum value for the axis
+
+</dd>
+<dt>flat</dt><dd>size of the flat section (not really sure what that means)
+
+</dd>
+<dt>fuzz</dt><dd>amount of error that may be present
+
+</dd>
+</dl>
+<p>
+This is functionality that only makes sense for devices with the absolute
+axis input type, but it will return success on others - coming back with 0s
+for all values.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000009.html');return false;">
+          <span class="method-name">product() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the product of the device.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000019.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000019.html');return false;">
+          <span class="method-name">read_event() &rarr; Event<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ require 'rubyevdev'
+
+ t = EventDevice.open(&quot;/dev/input/event3&quot;)
+ while(1)
+   puts t.read_event.inspect
+ end
+</pre>
+<p>
+This function reads a event from the event device. Note that evdev events
+only occur when something changes so this is a call that can block for a
+while. If you want to know the status of the device, as opposed to being
+notified about changes use the <a
+href="EventDevice.html#M000016">activated_keys</a> (or <a
+href="EventDevice.html#M000017">activated_leds</a> or <a
+href="EventDevice.html#M000018">activated_sounds</a>) methods. This
+function uses IO#sysread under the covers so the usual warnings about not
+combining it with other types of reads applies.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000021.html');return false;">
+          <span class="method-name">repeat_rate() &rarr; aHash<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key devices that support it, this function returns a hash with the
+repeat rate settins. There are two values in the hash:
+</p>
+<dl>
+<dt>initial_delay</dt><dd>this is the amount of time you must hold down a key before it begins to
+repeat
+
+</dd>
+<dt>repeat_interval</dt><dd>once the initial_delay is exhausted, a new key event will be registed every
+repeat_interval seconds
+
+</dd>
+</dl>
+<p>
+I&#8217;m not sure if this functionality really works, because I&#8217;ve
+never actually found a keyboard that supports it. Also note that this
+functionality is new in Linux2.6 and so older versions of the kernel will
+just raise right away if you call this function. If the functionality is
+available in the kernel but not supported by this particular device, an
+IOException will be raised.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000024.html');return false;">
+          <span class="method-name">scancode_for_keycode(int_keycode) &rarr; aNumber<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key input devices with drivers that support it, this function returns
+the scancode currently mapped to the input keycode. Not all keyboard
+drivers support this (the USB drivers, in particular, do not). If the
+operation is unsupported, this function with raise and IOException.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000022.html');return false;">
+          <span class="method-name">set_repeat_rate(initial, repeat) &rarr; nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key device drivers that support it, you can set the repeat rate
+parameters. I&#8217;m not sure if this functionality really works, because
+I&#8217;ve never actually found a keyboard that supports it. Also note that
+this functionality is new in Linux2.6 and so older versions of the kernel
+will just raise right away if you call this function. If the functionality
+is available in the kernel but not supported by this particular device, an
+IOException will be raised.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000025.html');return false;">
+          <span class="method-name">set_scancode_for_keycode(int_keycode, int_new_scancode) &rarr; nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+For key input devices with drivers that support it, this function remaps
+the scancode resulting from a keypress. Not all keyboard drivers support
+this (the USB drivers, in particular, do not). If the operation is
+unsupported, this function with raise and IOException.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000014.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000014.html');return false;">
+          <span class="method-name">supported_feature_types() &rarr; arrayOfFeatureTypes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+   require 'rubyevdev'
+
+   device = EventDevice.open(&quot;/dev/input/event3&quot;)
+   types = device.supported_feature_types
+   names = types.collect { |i| i.name }
+   puts &quot;Features: #{names.join(', ')}&quot;
+</pre>
+<p>
+This function returns all the FeatureTypes that the device reports that it
+supports.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000015.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000015.html');return false;">
+          <span class="method-name">supported_features_for_type(feature_type_code) &rarr; aArrayOfCodes<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This returns an array of codes corresponding to the features of this
+featuretype that this particular device supports. Rather than calling this
+(pretty crude) function, use FeatureType#supportedFeatures
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000012.html');return false;">
+          <span class="method-name">topology() &rarr; aString<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string identifing this object&#8217;s place in the device
+topology. It often looks like this
+&quot;usb-0000:00:1d.7-1.2.1/input0&quot;. Not all devices support this
+call in which case this function will raise an IOerror.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000013.html');return false;">
+          <span class="method-name">unique_id() &rarr; string<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string that in theory is set by the manufacturer to uniquely
+identify the device. In pratice, this returns empty string for most devices
+and sometimes just raises an IOError outright.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000008.html');return false;">
+          <span class="method-name">vendor() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the manufacturer of the device.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000010.html');return false;">
+          <span class="method-name">version() &rarr; anInteger<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a number representing the version of the device.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="EventDevice.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('EventDevice.src/M000020.html');return false;">
+          <span class="method-name">write_event(int_feature_type, int_feature_code, int_value) &rarr; int<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+  require 'rubyevdev'
+
+  t = EventDevice.open(&quot;/dev/input/event3&quot; , &quot;a+&quot;)
+  # 17 is the LED device, 2 is the Scrolllock LED, 1 sets it on
+  puts t.write_event(17,2,1);
+</pre>
+<p>
+This function allows you to write to the evdev device. For LEDs, this turns
+them on or off. It&#8217;s cleaner to use the <a
+href="Feature.html#M000004">Feature#write_value</a> function to accomplish
+this. The function returns the number of bytes written. On a failure, it
+will raise an IOException.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

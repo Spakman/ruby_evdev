@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>scancode_for_keycode (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq: 
+ *   scancode_for_keycode(int_keycode) -&gt; aNumber
+ *
+ * For key input devices with drivers that support it, this function returns the
+ * scancode currently mapped to the input keycode.  Not all keyboard drivers
+ * support this (the USB drivers, in particular, do not).  If the operation is
+ * unsupported, this function with raise and IOException.
+ */
+static VALUE ed_scancode_for_keycode(VALUE self, VALUE keycode)
+{
+  int fd = get_fd(self);
+  int mapping[2];
+  mapping[0] = NUM2INT(keycode);
+
+  if (ioctl(fd, EVIOCGKEYCODE, mapping) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGKEYCODE&quot;, EVIOCGKEYCODE);
+  }
+  return INT2NUM(mapping[1]);
+}</pre>
+</body>
+</html>

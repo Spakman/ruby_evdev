@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>bus_type_code (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   bus_type_code() -&gt; anInteger
+ *
+ * Returns a number representing the bus that this device is connected on.
+ * Consider bus_type_name
+ */
+static VALUE ed_bus_type_code(VALUE self)
+{
+  return INT2FIX(get_input_info(self).bustype);
+}</pre>
+</body>
+</html>

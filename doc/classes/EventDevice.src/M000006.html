@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>event_interface_version (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *  event_interface_version() -&gt; aString
+ * 
+ * Returns a string of the form x.y.z idenifing the version of the evdev version
+ * being used.
+ */
+static VALUE ed_event_interface_version(VALUE self)
+{
+  int fd = get_fd(self);
+  int version;
+  char version_str[12];
+
+  if (ioctl(fd, EVIOCGVERSION, &amp;version) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGVERSION&quot;, EVIOCGVERSION);
+  }
+  sprintf(version_str, &quot;%d.%d.%d&quot;,
+  version &gt;&gt; 16, (version &gt;&gt; 8) &amp; 0xff, version &amp; 0xff);
+  return rb_str_new2(version_str);
+}</pre>
+</body>
+</html>

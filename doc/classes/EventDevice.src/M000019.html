@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>read_event (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   read_event() -&gt; Event
+ *  
+ *    require 'rubyevdev'
+ *     
+ *    t = EventDevice.open(&quot;/dev/input/event3&quot;)
+ *    while(1)
+ *      puts t.read_event.inspect
+ *    end
+ *
+ *   This function reads a event from the event device.  Note that evdev events
+ *   only occur when something changes so this is a call that can block for a
+ *   while.  If you want to know the status of the device, as opposed to being
+ *   notified about changes use the activated_keys (or activated_leds or
+ *   activated_sounds) methods.  This function uses IO#sysread under the covers so
+ *   the usual warnings about not combining it with other types of reads
+ *   applies.
+ */
+static VALUE ed_read_event(VALUE self)
+{
+  struct input_event *event;
+  
+  VALUE result = rb_funcall(self,rb_intern(&quot;sysread&quot;),1, INT2FIX(sizeof(struct input_event)));
+  event = (struct input_event*) RSTRING(result)-&gt;ptr;
+  VALUE event_obj = rb_funcall(self,
+		         rb_intern(&quot;create_event&quot;),
+			 4,
+                         UINT2NUM(event-&gt;type),
+                         UINT2NUM(event-&gt;code),
+                         INT2NUM(event-&gt;value),
+                         rb_time_new(event-&gt;time.tv_sec, event-&gt;time.tv_usec));
+
+  return event_obj;
+}</pre>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>unique_id (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   unique_id() -&gt; string
+ *
+ * Returns a string that in theory is set by the manufacturer to uniquely
+ * identify the device.  In pratice, this returns empty string for most devices
+ * and sometimes just raises an IOError outright.
+ */
+static VALUE ed_unique_id(VALUE self)
+{
+  int fd = get_fd(self);
+  char unique[256];
+
+  if (ioctl(fd, EVIOCGUNIQ(sizeof(unique)), unique) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGUNIQ&quot;, EVIOCGUNIQ(sizeof(unique)));
+  }
+  return rb_str_new2(unique);
+}</pre>
+</body>
+</html>

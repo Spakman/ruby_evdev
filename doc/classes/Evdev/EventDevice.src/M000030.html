@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>repeat_rate (Evdev::EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   repeat_rate() -&gt; aHash
+ *
+ * For key devices that support it, this function returns a hash with the repeat
+ * rate settins.  There are two values in the hash:
+ * [initial_delay]   this is the amount of time you must hold down a key before it
+ *                   begins to repeat
+ * [repeat_interval] once the initial_delay is exhausted, a new key event will
+ *                   be registed every repeat_interval seconds
+ * I'm not sure if this functionality really works, because I've
+ * never actually found a keyboard that supports it.  Also note that this
+ * functionality is new in Linux2.6 and so older versions of the kernel will
+ * just raise right away if you call this function.  If the functionality is
+ * available in the kernel but not supported by this particular device, an
+ * IOException will be raised.
+ */
+static VALUE ed_repeat_rate(VALUE self)
+{
+#ifdef EVIOCGREP
+  int fd = get_fd(self);
+  int rate[2];
+
+  if (ioctl(fd, EVIOCGREP, rate) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGREP&quot;, EVIOCGREP);
+  }
+  VALUE results_hash = rb_hash_new();
+  rb_hash_aset(results_hash, rb_str_new2(&quot;intial_delay&quot;), INT2NUM(rate[0]));
+  rb_hash_aset(results_hash, rb_str_new2(&quot;repeat_interval&quot;), INT2NUM(rate[1]));
+  return results_hash;
+#else
+    rb_raise(rb_eIOError, &quot;your version of linux does not support repeat rate&quot;);
+#endif
+}</pre>
+</body>
+</html>

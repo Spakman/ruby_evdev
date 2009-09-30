@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>supported_feature_types (Evdev::EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   supported_feature_types() -&gt; arrayOfFeatureTypes
+ *
+ *    require 'evdev'
+ *  
+ *    Evdev::EventDevice.open(&quot;/dev/input/event3&quot;) { |device|
+ *      types = device.supported_feature_types
+ *      names = types.collect { |i| i.name }
+ *      puts &quot;Features: #{names.join(', ')}&quot;
+ *    }
+ * This function returns all the FeatureTypes that the device reports that it
+ * supports.
+ */
+static VALUE ed_supported_feature_types(VALUE self)
+{
+  int feature_type;
+  int fd = get_fd(self);
+  VALUE result_array = rb_ary_new();
+  long feature_type_bits[NBITS(EV_MAX)];
+
+  memset(feature_type_bits, 0, sizeof(feature_type_bits));
+  if (ioctl(fd, EVIOCGBIT(0, EV_MAX), feature_type_bits) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGBIT&quot;, EVIOCGBIT(0, EV_MAX));
+  }
+  for (feature_type = 0; feature_type &lt; EV_MAX; feature_type++) {
+    if (test_bit(feature_type, feature_type_bits)) { 
+      VALUE feature_type_obj = rb_funcall(self,
+                         rb_intern(&quot;create_feature_type&quot;),
+                         1,
+                         INT2NUM(feature_type));
+      rb_ary_push(result_array, feature_type_obj);
+    }
+  }
+  return result_array;
+}</pre>
+</body>
+</html>

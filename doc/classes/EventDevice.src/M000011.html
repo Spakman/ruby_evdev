@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>device_name (EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   device_name() -&gt; String
+ *
+ * Returns a human-readable name describing the device.
+ */
+static VALUE ed_device_name(VALUE self)
+{
+  int fd = get_fd(self);
+  char name[256];
+
+  if (ioctl(fd, EVIOCGNAME(sizeof(name)), name) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCGNAME&quot;, EVIOCGNAME(sizeof(name)));
+  }
+  return rb_str_new2(name);
+}</pre>
+</body>
+</html>

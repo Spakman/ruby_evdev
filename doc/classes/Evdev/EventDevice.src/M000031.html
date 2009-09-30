@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>set_repeat_rate (Evdev::EventDevice)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *   set_repeat_rate(initial, repeat) -&gt; nil
+ *   
+ * For key device drivers that support it, you can set the repeat rate
+ * parameters.  I'm not sure if this functionality really works, because I've
+ * never actually found a keyboard that supports it.  Also note that this
+ * functionality is new in Linux2.6 and so older versions of the kernel will
+ * just raise right away if you call this function.  If the functionality is
+ * available in the kernel but not supported by this particular device, an
+ * IOException will be raised.
+ */
+static VALUE ed_set_repeat_rate(VALUE self, VALUE initial, VALUE repeat)
+{
+#ifdef EVIOCSREP
+  int fd = get_fd(self);
+  int rate[2];
+  rate[0] = NUM2INT(initial);
+  rate[1] = NUM2INT(repeat);
+
+  if (ioctl(fd, EVIOCSREP, rate) &lt; 0) {
+    raise_for_ioctl_error(fd, &quot;EVIOCSREP&quot;, EVIOCSREP);
+  }
+  return Qnil;
+#else
+    rb_raise(rb_eIOError, &quot;your version of linux does not support repeat rate&quot;);
+#endif
+}</pre>
+</body>
+</html>
